@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ORDERS</title>
+    <link rel="stylesheet" href="../css/content.css">
+    <style>
+        .porosia-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 8px solid #592403;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 700px;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: left; /* Siguron që teksti brenda box-it të jetë majtas */
+        }
+        .header-porosia {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #592403;
+        }
+        .detajet-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+        .lista-produkteve-fatura {
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .totali-fatura {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .permbajtja-orders {
+            margin-top: 100px;
+        }
+
+        /* --- STILIMI I RI I BUTONAVE --- */
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #592403 0%, #8b4513 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Megrim', cursive;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 10px;
+            min-width: 220px;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(89, 36, 3, 0.4);
+            background: linear-gradient(135deg, #8b4513 0%, #592403 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #a71d1d 0%, #d32f2f 100%) !important;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="content permbajtja-orders">
+        <h1 class="titull_fqKlientit">ORDERS HISTORY</h1>
+        
+        <div id="historiaContainer"></div>
+        
+        <div class="btn-container">
+            <button class="btn-premium" onclick="window.location.href='faqjaKryesoreKlientit.html'">KTHEHU NE KRYE</button>
+            <button class="btn-premium btn-danger" onclick="if(confirm('A jeni te sigurt që dëshironi të fshini të gjithë historinë?')){localStorage.removeItem('historiaPorosive'); location.reload();}">FSHI HISTORINE</button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const historia = JSON.parse(localStorage.getItem('historiaPorosive')) || [];
+            const container = document.getElementById('historiaContainer');
+
+            if (historia.length === 0) {
+                container.innerHTML = "<h2 style='text-align:center; color:#592403; background: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;'>Nuk ka asnjë porosi të regjistruar.</h2>";
+                return;
+            }
+
+            // Krijojmë një kopje për të mos ndryshuar array-n origjinal në storage
+            const historiaShfaqjes = [...historia].reverse();
+
+            historiaShfaqjes.forEach(p => {
+                let produktetHtml = p.produktet.map(prod => `• ${prod.name}`).join(', ');
+                
+                container.innerHTML += `
+                    <div class="porosia-box">
+                        <div class="header-porosia">
+                            <span>POROSIA #${p.id.toString().slice(-5)}</span>
+                            <span>${p.dataPorosise}</span>
+                        </div>
+                        <div class="detajet-grid">
+                            <div><strong>Klienti:</strong> ${p.klienti.emri || 'I panjohur'} ${p.klienti.mbiemri || ''}</div>
+                            <div><strong>Tavolina:</strong> ${p.rezervimi.tavolina || 'Pa rezervim'}</div>
+                            <div><strong>Email:</strong> ${p.klienti.email || 'Nuk ka'}</div>
+                            <div><strong>Data Rez:</strong> ${p.rezervimi.data || '---'}</div>
+                        </div>
+                        <div class="lista-produkteve-fatura">
+                            <strong>Produktet:</strong> ${produktetHtml}
+                        </div>
+                        <div class="totali-fatura">
+                            TOTALI: ${p.totali} LEKE
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

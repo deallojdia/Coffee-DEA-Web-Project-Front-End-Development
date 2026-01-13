@@ -8,7 +8,7 @@
     <body>
        
        <div class="content">
-            <h1 class="titull">COFFEE DEA</h1>
+            <h1 class="titull">COFFEE DEA & RESTAURANT</h1>
              <img src="../images/logoja.png">
        <button type='button' id="klientButon" class="klient">KLIENT</button><br>
        <button type="button" id="punonjesButon" class="punonjes">PUNONJES</button>
@@ -16,9 +16,15 @@
 
     <script>
           const klientButon = document.getElementById('klientButon');
+          const punonjesButon = document.getElementById('punonjesButon');
 
 klientButon.addEventListener('click',() => {
     window.location.href='../html/faqjaKlientit.html';
+});
+
+
+punonjesButon.addEventListener('click',() => {
+    window.location.href='../html/fqPunonjesit.html';
 });
       </script>
     </body>

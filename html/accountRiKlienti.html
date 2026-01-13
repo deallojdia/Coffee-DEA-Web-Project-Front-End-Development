@@ -8,7 +8,7 @@
     <body>
     
         <div class="content">
-            <span class="titull_fqKlientit">COFFEE DEA</span>
+            <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
             <div class="mbeshtjelles">
                 <h2 class="newAccount_titull">NEW ACCOUNT</h2>
 
@@ -21,8 +21,7 @@
                     <input type="email" id="email" placeholder='email' required>
                     <label for="numer">NUMER TELEFONI:</label>
                     <input type="tel" id="numer" placeholder="numer telefoni">
-                    <label for="status">STATUSI(BESNIK):</label>
-                    <input type="text" id="status" placeholder="status">
+                
                     <label for="mosha">MOSHA</label>
                     <input type="number" id="mosha" placeholder="mosha">
                 <label for="password">PASSWORD</label>
@@ -31,11 +30,50 @@
                 </form> 
         </div>
 <script>
-const butonRuaj= document.getElementById('butonRuaj');
-butonRuaj.addEventListener('click',()=>{
-window.location.href='../html/faqjaKlientit.html';
-});
+const butonRuaj = document.getElementById('butonRuaj');
 
+butonRuaj.addEventListener('click', (e) => {
+    e.preventDefault(); // Parandalon rifreskimin e faqes
+
+    const emri = document.getElementById('emri').value;
+    const mbiemri = document.getElementById('mbiemri').value;
+    const email = document.getElementById('email').value;
+    const numer = document.getElementById('numer').value;
+    const mosha = document.getElementById('mosha').value;
+    const password = document.getElementById('password').value;
+
+    if (email === "" || password === "") {
+        alert("Ju lutem plotësoni Email dhe Password!");
+        return;
+    }
+
+    // 1. Marrim listën ekzistuese të përdoruesve ose krijojmë një listë bosh
+    let perdoruesit = JSON.parse(localStorage.getItem('listaPerdoruesve')) || [];
+
+    // 2. Kontrollojmë nëse ky email është regjistruar më parë
+    const ekziston = perdoruesit.find(u => u.email === email);
+    if (ekziston) {
+        alert("Ky email është i regjistruar!");
+        return;
+    }
+
+    // 3. Krijojmë objektin e ri
+    const klientiRi = {
+        emri: emri,
+        mbiemri: mbiemri,
+        email: email,
+        numer: numer,
+        mosha: mosha,
+        password: password // Ruajmë edhe fjalëkalimin
+    };
+
+    // 4. E shtojmë në listë dhe e ruajmë në LocalStorage
+    perdoruesit.push(klientiRi);
+    localStorage.setItem('listaPerdoruesve', JSON.stringify(perdoruesit));
+localStorage.setItem('profiliKlientit', JSON.stringify(klientiRi));
+    alert("Llogaria u krijua me sukses!");
+    window.location.href = '../html/loginKlienti.html'; // Vendos emrin e saktë të faqes login
+});
 </script>
     </body>
 </html>

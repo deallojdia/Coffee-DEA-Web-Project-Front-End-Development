@@ -3,12 +3,10 @@
     <head>
         <title>PROFILI KLIENT</title>
         <link rel="stylesheet" href="../css/content.css">
-   
- </head>
+    </head>
     <body>
-    
         <div class="content">
-            <span class="titull_fqKlientit">COFFEE DEA</span>
+            <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
           
             <div class="mbeshtjelles">
                 <h2 class="newAccount_titull">REZERVIM:</h2>
@@ -37,11 +35,37 @@
             </div>
         </div>
 <script>
-       const rezervo=document.getElementById('rezervo');
-rezervo.addEventListener('click',()=>{
-window.location.href='../html/menu.html';
-}); 
 
+    const rezervo = document.getElementById('rezervo');
+    rezervo.addEventListener('click', () => {
+        // 1. Krijohet objekti i rezervimit me të gjitha fushat
+        const detajetRezervimit = {
+            emri: document.getElementById('emri').value,
+            tavolina: document.getElementById('tavolina').value,
+            kapaciteti: document.getElementById('kapaciteti').value,
+            numer: document.getElementById('numer').value,
+            data: document.getElementById('data').value,
+            ora: document.getElementById('ora').value
+        };
+
+        // Kontroll i thjeshtë nëse fushat janë plotësuar
+        if(!detajetRezervimit.emri || !detajetRezervimit.tavolina) {
+            alert("Ju lutem plotësoni Emrin dhe numrin e Tavolinës!");
+            return;
+        }
+
+        // 2. Ruajmë rezervimin për sesionin aktual të klientit (për pagesën)
+        localStorage.setItem('rezervimiIm', JSON.stringify(detajetRezervimit));
+
+        // 3. E SHTOJMË te lista globale që sheh Punojsi
+        let listaGlobale = JSON.parse(localStorage.getItem('listaRezervimeve')) || [];
+        listaGlobale.push(detajetRezervimit); // Shtohet rezervimi i ri në fund të listës
+        localStorage.setItem('listaRezervimeve', JSON.stringify(listaGlobale));
+        
+        alert("Rezervimi u krye me sukses!");
+        window.location.href = '../html/menu.html';
+    });
 </script>
+
     </body>
 </html>

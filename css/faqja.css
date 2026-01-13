@@ -36,3 +36,47 @@ opacity: 100%;
     margin:0;
     text-align: center;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Merre të gjithë lartësinë e ekranit */
+    display: flex;
+    justify-content: center; /* Qendrim horizontal */
+    align-items: center;     /* Qendrim vertikal */
+    background-color: #f9f9f9; /* Mund ta ndryshosh sipas dëshirës */
+    cursor: pointer; /* Ndihmon përdoruesin të kuptojë që faqja klikohet */
+    overflow: hidden;
+}
+
+.content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    width: 250px; /* Mund ta rregullosh madhësinë sipas logos tënde */
+    height: auto;
+    margin-bottom: 20px;
+    /* Opsionale: Shto një animacion të lehtë frymëmarrjeje */
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.coffee {
+    color: #592403;
+    font-family: 'Megrim', cursive;
+    font-size: 40px;
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+/* Animacion që e bën logon të duket "e gjallë" */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class="content">
-            <h1 class="titull_fqKlientit">COFFEE DEA</h1>
+            <h1 class="titull_fqKlientit">COFFEE DEA & RESTAURANT</h1>
              
         <div class="mbeshtjelles">
             <h3 class="newAccount_titull">LOG IN:</h3>
@@ -23,15 +23,41 @@
         </div>
         </div>
       <script>
-const forgotPassword = document.getElementById('forgotPassword');
-     forgotPassword.addEventListener('click',()=>{
-        window.location.href='../html/accountRiKlienti.html';
-     });
+const login = document.getElementById('login');
 
-     const login = document.getElementById('login');
-     login.addEventListener('click',()=>{
-        window.location.href='../html/faqjaKryesoreKlientit.html';
-     });
+login.addEventListener('click', () => {
+    const emailInput = document.getElementById('username').value; // Këtu përdorim email si username
+    const passInput = document.getElementById('password').value;
+
+    // 1. Marrim listën e të gjithë përdoruesve nga LocalStorage
+    let perdoruesit = JSON.parse(localStorage.getItem('listaPerdoruesve')) || [];
+
+    // 2. Kërkojmë në listë nëse ekziston një përdorues me këtë email DHE password
+    const perdoruesiIGjetur = perdoruesit.find(u => u.email === emailInput && u.password === passInput);
+
+    if (perdoruesiIGjetur) {
+        // Nëse gjendet, ruajmë sesionin e përdoruesit që hyri (që ta dimë kush është)
+        localStorage.setItem('perdoruesiAktiv', JSON.stringify(perdoruesiIGjetur));
+        
+        alert("Mirëseerdhe " + perdoruesiIGjetur.emri + "!");
+        window.location.href = '../html/faqjaKryesoreKlientit.html';
+    } else {
+        // Nëse nuk gjendet asnjë përputhje
+        alert("Email ose Password i gabuar!");
+    }
+});
+const forgotPassword = document.getElementById('forgotPassword');
+
+forgotPassword.addEventListener('click', (e) => {
+    e.preventDefault(); // Kjo ndalon linkun të bëjë refresh faqen
+    
+    // Sigurohu që emri i skedarit të jetë ekzaktësisht si në folderin tënd
+    // Nëse janë në të njëjtin folder 'html', përdor këtë:
+    window.location.href = 'accountRiKlienti.html';
+    
+    // Nëse kjo nuk punon, provo rrugën relative:
+    // window.location.href = '../html/accountRiKlienti.html';
+});
 
      </script>
     </body>

@@ -1,45 +1,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-body{
-    margin:0;
+/* 1. Rregullat e Përgjithshme */
+body {
+    margin: 0;
     padding: 0;
-     height: 100vh;
-display: flex;
-justify-content:center;
-      align-items:center;
- position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
 }
 
-body::before{
+body::before {
     content: '';
-       position: absolute;
+    position: fixed; /* Fiksohet që të mos lëvizë gjatë scroll-it */
     top: 0; left: 0;
     width: 100%; height: 100%;
-background-image: url(../images/BACK.jpg);
+    background-image: url(../images/BACK.jpg);
     background-size: cover;
     background-position: center;
-     opacity: 0.7; 
+    opacity: 0.7; 
     z-index: -1; 
 }
 
-.hyrja_welcome{
-    color:#592403;
+/* 2. Titujt */
+.hyrja_welcome, .titull, .titull_fqKlientit, .newAccount_titull, .fq_klient {
+    color: #592403;
+    font-family: 'Megrim', cursive;
+    text-align: center;
+}
+
+.hyrja_welcome, .titull_fqKlientit {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 55px;
-     font-family: 'Megrim', cursive;
-    position:absolute;
-    top:20px;
-    left:50%;                     
-    transform:translateX(-50%);                       
+    margin: 0;
 }
 
-.content{
-    display:flex;
-    flex-direction:column;      
-    align-items:center;         
-    justify-content:center;             
+.newAccount_titull, .fq_klient {
+    font-size: 50px;
+    padding-left: 0; /* Centruar */
+    margin-bottom: 20px;
 }
 
-.mbeshtjelles{ 
+/* 3. Layout dhe Përmbajtja */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.mbeshtjelles { 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,190 +64,208 @@ background-image: url(../images/BACK.jpg);
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 70vh;      
-    background-color: white;
-    opacity: 0.6;
+    height: 75vh;      
+    background-color: rgba(255, 255, 255, 0.85); /* Pak më pak transparente për lexueshmëri */
     border-top-left-radius: 60px;
     border-top-right-radius: 60px;
     z-index: 2;
+    padding-top: 40px;
+    overflow-y: auto; /* Mundëson scroll brenda kutisë së bardhë */
 }
 
-.hyrja_coffee{
-    color:#592403;
-     font-family: 'Megrim', cursive;
-     font-weight: bold;
-       font-size:50px;  
-    margin: top 20px;
-    text-align: center;
-   
-}
-
-.hyrja_p{
-    color:#592403;
-    font-family: 'Montserrat',sans-serif;
-    font-weight: bold;
-     font: size 25px;
-    margin-top:10px;
-    text-align: center;
- 
-}
-
-.titull{
- color:#592403;
-    font-family: 'Megrim',sans-serif;
-    text-align: center;
- margin-top: 20px;
- font-size: 50px;
-}
-
-
-img{
-width:auto;
-    height: auto;
-    margin-bottom: 70px;
-}
-
-.klient,.punonjes, .newAccount, .login{
-    padding:20px 50px;
-    font-size:20px;
-    background-color:white;
-    border-radius:50px;
-    cursor:pointer;
-    transition:0.3s;
-    margin-bottom: 20px;
-    margin-left: 30px;
-    font-family: 'Mergrim',cursive;
-    border: none;
-}
-
-.klient:hover, .punonjes:hover, .newAccount:hover, .login:hover{
-    background-color: rgb(197, 241, 130);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.fq_klient{
-    color:#592403;
-    font-family: 'Megrim',sans-serif;
-    padding-left: 30px;
-    font-weight: bold;
-    font-size: 50px;
-   
-}
-
-.titull_fqKlientit{
-    color:#592403;
-    font-family: 'Megrim',sans-serif;
-    text-align: center;
- margin-top: 20px;
- font-size: 50px;
-  position:absolute;
-    top:20px;
-    left:50%;                     
-    transform:translateX(-50%);
-    opacity: 100%;  
-}
-
-.newAccount_titull{
-   color:#592403;
-    font-family: 'Megrim',sans-serif;
-    padding-left: 30px;
-    font-weight: bold;
-    font-size: 50px;
-     
-}
-
-form{
-    display:flex;
-    flex-direction:column;
-    width:100%;
-    max-width:400px;      
-}
-
-form label{
-    font-family: 'Mergrim',cursive;
+/* 4. Teksti dhe Imazhet */
+.hyrja_coffee {
     color: #592403;
+    font-family: 'Megrim', cursive;
+    font-weight: bold;
+    font-size: 50px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.hyrja_p {
+    color: #592403;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.menu_img {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 50px;
+    border-radius: 50px;
+    z-index: 10;
+}
+
+/* 5. BUTONAT (Shtrirja e stilit .order te të gjithë) */
+.klient, .punonjes, .newAccount, .login, 
+.menu, .profil, .rezervim, .pagesa, .porosia, .ruaj, .vazhdo, .order, form button {
+    background: linear-gradient(135deg, #592403 0%, #8b4513 100%);
+    color: white;
+    padding: 15px 45px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    font-family: 'Megrim', cursive;
+    border: none;
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    min-width: 200px;
+    text-align: center;
+}
+
+/* Centrimi i butonave që janë jashtë formave */
+.menu, .profil, .rezervim, .pagesa, .porosia, .ruaj, .vazhdo, .order {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Efekti Hover për të GJITHË butonat */
+.klient:hover, .punonjes:hover, .newAccount:hover, .login:hover,
+.menu:hover, .profil:hover, .rezervim:hover, .pagesa:hover, .porosia:hover, .ruaj:hover, .vazhdo:hover, .order:hover, form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(89, 36, 3, 0.4);
+    background: linear-gradient(135deg, #8b4513 0%, #592403 100%);
+    color: white;
+}
+
+.klient:active, .order:active {
+    transform: translateY(1px);
+}
+
+/* 6. Format dhe Inputet */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form label {
+    font-family: 'Megrim', cursive;
+    color: #592403;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #592403;
+    box-shadow: 0 0 8px rgba(89, 36, 3, 0.3);
+}
+
+.forgotPassword {
+    color: #592403;
+    font-family: 'Megrim', cursive;
+    padding: 5px 10px;
+    text-align: right;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* 7. Orders dhe Historia (Karta e Porosisë) */
+.order-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-left: 10px solid #592403;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    color: #333;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #f0e5da;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.shuma {
     font-size: 18px;
     font-weight: bold;
-}
-form input:focus{
-    border-color:#592403;
-    box-shadow:0 0 5px rgba(89,36,3,0.5);
-      border-radius: 50px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      border: none;
-}
-form button{
-        padding:10px 20px;
-  color: #592403;
-    font-size:18px;
-    font-weight:bold;
-    border:none;
-    border-radius:50px;
-    cursor:pointer;
-     font-family: 'Mergrim',cursive;
-border: none;
-margin-top: 10px ;
-}
-
-form button:hover{
-    background-color:rgb(141, 221, 141);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.forgotPassword{
     color: #592403;
-    font-family: 'Mergrim',cursive;
-    padding: 5px 10px;
     text-align: right;
 }
 
-.menu_img{
-  position: absolute;
-    top: 20px;        
-    right: 30px;         
-    width: 50px;      
-    height: auto;
-    border-radius: 50px;
-}
-
-.menu, .profil,.rezervim,.pagesa,.porosia,.ruaj,.vazhdo{
-      padding:10px 20px;
-   color:#592403;
-    font-size:25px;
-    font-weight:bold;
-    border-radius:50px;
-    cursor:pointer;
-    border:none;
-     font-family: 'Mergrim',cursive;
-  margin-top:20px ;
-}
-
-.menu:hover, .profil:hover,.rezervim:hover,.pagesa:hover,.porosia:hover,.ruaj:hover,.vazhdo:hover{
-    background-color: rgb(129, 230, 129);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
-}
- 
-
-.shuma{
-    font-size:15px;
-    font-weight:bold;
-    color:#592403;
-}
-
-p{
-      text-align:center;
-    color:#592403;
-    margin-bottom:15px;
+p {
+    text-align: center;
+    color: #592403;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
-.orderItem button {
-    background-color: #e2711d;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
+/* Kutia e produktit në shportë */
+.orderItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    margin: 10px auto;
+    padding: 15px 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #592403;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 
+/* Butoni REMOVE në ngjyrë KAFE */
+.order-item {
+    background: linear-gradient(135deg, #592403 0%, #8b4513 100%);
+    color: white;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Megrim', cursive;
+    border: none;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}
+
+/* Efekti kur kalon mausin */
+.order-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(89, 36, 3, 0.4);
+    background: linear-gradient(135deg, #8b4513 0%, #592403 100%);
+}
+
+/* Efekti kur e shtyp */
+.order-item:active {
+    transform: translateY(1px);
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <title>Magazina - Coffee Dea</title>
+    <link rel="stylesheet" href="../css/content.css">
+    <style>
+        .tabela-magazines {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .tabela-magazines th, .tabela-magazines td {
+            border: 1px solid #f0e5da;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .tabela-magazines th {
+            background-color: #592403;
+            color: white;
+            font-family: 'Megrim', cursive;
+        }
+        .input-grupi {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        .btn-fshi {
+            background: none;
+            border: none;
+            color: #a71d1d;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        /* Stilim për produktet që vijnë nga shitjet */
+        .rresht-shitje {
+            background-color: #f2f2f2;
+            font-style: italic;
+        }
+        .etikete-shitje {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
+
+    <div class="mbeshtjelles">
+        <h2 class="newAccount_titull">MENAXHIMI I MAGAZINËS</h2>
+        
+        <div class="input-grupi">
+            <input type="text" id="malli" placeholder="Emri i produktit">
+            <input type="number" id="sasia" placeholder="Sasia (stoku)">
+            <input type="number" id="cmimi" placeholder="Cmimi (Lek)">
+            <button class="vazhdo" onclick="shtoMalle()">SHTO NË MAGAZINË</button>
+        </div>
+
+        <table class="tabela-magazines">
+            <thead>
+                <tr>
+                    <th>ID / BURIMI</th>
+                    <th>PRODUKTI</th>
+                    <th>SASIA</th>
+                    <th>ÇMIMI</th>
+                    <th>VEPRIM</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaM">
+                </tbody>
+        </table>
+
+        <br>
+        <button class="vazhdo" style="background-color: #6c757d;" onclick="window.location.href='FQKRYESOREPUNONJESIT.html'">KTHEHU MBRAPA</button>
+    </div>
+</div>
+
+<script>
+// Funksioni yt origjinal për të shtuar mall
+function shtoMalle() {
+    const emriInp = document.getElementById('malli');
+    const sasiaInp = document.getElementById('sasia');
+    const cmimiInp = document.getElementById('cmimi');
+
+    if(emriInp.value === "" || sasiaInp.value === "" || cmimiInp.value === "") {
+        alert("Ju lutem plotësoni të gjitha fushat!");
+        return;
+    }
+
+    let magazina = JSON.parse(localStorage.getItem('magazina')) || [];
+    
+    const produktiRi = {
+        id: Date.now(),
+        produkti: emriInp.value,
+        sasia: sasiaInp.value,
+        cmimi: cmimiInp.value
+    };
+
+    magazina.push(produktiRi);
+    localStorage.setItem('magazina', JSON.stringify(magazina));
+    
+    emriInp.value = "";
+    sasiaInp.value = "";
+    cmimiInp.value = "";
+
+    shfaqM();
+}
+
+// Funksioni i rregulluar që shfaq edhe produktet nga historia e menusë
+function shfaqM() {
+    let magazina = JSON.parse(localStorage.getItem('magazina')) || [];
+    let historia = JSON.parse(localStorage.getItem('historiaPorosive')) || [];
+    let tabela = document.getElementById('tabelaM');
+    let html = "";
+
+    // 1. Shfaqim stokun manual
+    magazina.forEach((m, index) => {
+        html += `
+        <tr>
+            <td>STOK-${index + 1}</td>
+            <td>${m.produkti}</td>
+            <td>${m.sasia} copë</td>
+            <td>${m.cmimi} LEK</td>
+            <td><button class="btn-fshi" onclick="fshiM(${m.id})">✘</button></td>
+        </tr>`;
+    });
+
+    // 2. Shfaqim produktet e shitura nga menuja (pa i ndryshuar ato)
+    historia.forEach((porosia) => {
+        if(porosia.produktet) {
+            porosia.produktet.forEach((p) => {
+                html += `
+                <tr class="rresht-shitje">
+                    <td><span class="etikete-shitje">SHITJE</span></td>
+                    <td>${p.name}</td>
+                    <td>1 copë</td>
+                    <td>${p.price} LEK</td>
+                    <td>---</td>
+                </tr>`;
+            });
+        }
+    });
+
+    if (html === "") {
+        tabela.innerHTML = "<tr><td colspan='5'>Nuk ka të dhëna në magazinë apo shitje.</td></tr>";
+    } else {
+        tabela.innerHTML = html;
+    }
+}
+
+// Funksioni yt origjinal për të fshirë mallin
+function fshiM(id) {
+    if(confirm("Dëshironi ta hiqni këtë produkt nga magazina?")) {
+        let magazina = JSON.parse(localStorage.getItem('magazina')) || [];
+        let listaRe = magazina.filter(m => m.id !== id);
+        localStorage.setItem('magazina', JSON.stringify(listaRe));
+        shfaqM();
+    }
+}
+
+// Ngarkimi automatik
+window.onload = shfaqM;
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <title>Paneli i Adminit - Coffee Dea</title>
+    <link rel="stylesheet" href="../css/content.css">
+    <style>
+        /* Stile shtesë specifike për tabelën që nuk janë në CSS-in tënd të përgjithshëm */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0e5da;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #592403;
+            color: white;
+            font-family: 'Megrim', cursive;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        tr:hover {
+            background-color: #fcf8f5;
+        }
+
+        .pass-text {
+            font-family: monospace;
+            color: #8b4513;
+            font-weight: bold;
+            background: #eee;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        /* Modifikim për butonin fshi që të jetë i vogël por me stilin kafe */
+        .btn-delete {
+            background: #d9534f; /* Ngjyrë e kuqe për fshirjen */
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: #c9302c;
+            transform: scale(1.05);
+        }
+
+        /* Rregullim për scroll brenda mbeshtjellesit */
+        .tabela-kontenier {
+            width: 95%;
+            overflow-x: auto;
+        }
+    </style> 
+</head>
+<body>
+
+    <div class="content">
+        <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
+        
+        <div class="mbeshtjelles">
+            <h2 class="newAccount_titull">MENAXHIMI I KLIENTËVE</h2>
+            
+            <div class="tabela-kontenier">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Emri</th>
+                            <th>Mbiemri</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Mosha</th>
+                            <th>Password</th>
+                            <th>Veprime</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaTrupi">
+                        </tbody>
+                </table>
+            </div>
+
+            <br>
+            <button class="vazhdo" onclick="window.location.href='../html/faqjaKryesoreKlientit.html'">KTHEHU MBRAPA</button>
+        </div>
+    </div>
+
+  <script>
+    function shfaqPerdoruesit() {
+        // TASHMË EMRI ËSHTË I NJËJTË: 'listaPerdoruesve'
+        const perdoruesit = JSON.parse(localStorage.getItem('listaPerdoruesve')) || [];
+        const listaTrupi = document.getElementById('listaTrupi');
+        listaTrupi.innerHTML = "";
+
+        if (perdoruesit.length === 0) {
+            listaTrupi.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Nuk ka asnjë klient të regjistruar.</td></tr>";
+            return;
+        }
+
+        perdoruesit.forEach((p, index) => {
+            const rresht = `
+                <tr>
+                    <td>${p.emri}</td>
+                    <td>${p.mbiemri}</td>
+                    <td>${p.email}</td>
+                    <td>${p.numer || 'N/A'}</td>
+                    <td>${p.mosha || 'N/A'}</td>
+                    <td><span class="pass-text">${p.password}</span></td>
+                    <td>
+                        <button class="btn-delete" onclick="fshiPerdorues(${index})">Fshi</button>
+                    </td>
+                </tr>`;
+            listaTrupi.innerHTML += rresht;
+        });
+    }
+
+    function fshiPerdorues(index) {
+        if(confirm("A jeni i sigurt që dëshironi të fshini këtë klient?")) {
+            let lista = JSON.parse(localStorage.getItem('listaPerdoruesve')) || [];
+            lista.splice(index, 1); // Heqim klientin nga lista
+            localStorage.setItem('listaPerdoruesve', JSON.stringify(lista)); // Ruajmë listën e re
+            shfaqPerdoruesit(); // Rifreskojmë tabelën
+        }
+    }
+
+    // Ekzekutohet sa herë hapet faqja
+    window.onload = shfaqPerdoruesit;
+</script>
+
+</body>
+</html>

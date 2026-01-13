@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Punonjesve</title>
+    <link rel="stylesheet" href="../css/content.css">
+</head>
+<body>
+    <div class="content">
+        <h1 class="titull_fqKlientit">COFFEE DEA & RESTAURANT</h1>
+        <div class="mbeshtjelles">
+            <h3 class="newAccount_titull">LOG IN (PUNONJES):</h3>
+            <form id="formLogin">
+                <label for="email">EMAIL</label> 
+                <input type="email" id="email" placeholder="email@coffedea.com" required>
+                <label for="password">PASSWORD</label>
+                <input type="password" id="password" placeholder="password" required>
+                <span id="forgot" class="forgot" style="cursor: pointer;">
+                    <a href="javascript:void(0)" id="forgotBtn">Forgot password?</a>
+                </span> 
+                <button type="button" id="loginBtn" class="vazhdo">LOG IN</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const loginBtn = document.getElementById('loginBtn');
+        const forgotLink = document.getElementById('forgotBtn');
+
+        // Funksioni i Login (pa ndryshime)
+        loginBtn.addEventListener('click', () => {
+            const emailInp = document.getElementById('email').value; 
+            const passInp = document.getElementById('password').value;
+
+            const lista = JSON.parse(localStorage.getItem('listaPunonjesve')) || [];
+            const gjetur = lista.find(p => p.email === emailInp && p.password === passInp);
+
+            if (gjetur) {
+                localStorage.setItem('profiliPunonjes', JSON.stringify(gjetur));
+                alert("Mirëseerdhe!");
+                window.location.href = '../html/FQKRYESOREPUNONJESIT.html';
+            } else {
+                alert("Të dhëna të gabuara!");
+            }
+        });
+
+        // RREGULLIMI: Funksioni për Forgot Password
+        forgotLink.addEventListener('click', () => {
+            const emailInp = document.getElementById('email').value;
+
+            if (emailInp === "") {
+                alert("Ju lutem shkruani email-in tuaj te fusha EMAIL që të gjejmë fjalëkalimin!");
+                return;
+            }
+
+            const lista = JSON.parse(localStorage.getItem('listaPunonjesve')) || [];
+            const punonjesi = lista.find(p => p.email === emailInp);
+
+            if (punonjesi) {
+                alert("Përshëndetje " + punonjesi.emri + ", fjalëkalimi juaj është: " + punonjesi.password);
+            } else {
+                alert("Ky email nuk u gjend në sistem!");
+            }
+        });
+    </script>
+</body>
+</html>

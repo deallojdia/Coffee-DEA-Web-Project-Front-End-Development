@@ -3,10 +3,12 @@ let order = JSON.parse(localStorage.getItem("order")) || [];
    function renderOrder() { 
 let output = "";
     order.forEach((item ,index) => {
-        output += `<div class='orderItem'>
-            ${item.name} - ${item.price} leke
-               <button onclick='removeItem(${index})'>Remove</button></div>`;
+       output += `<div class='orderItem'>
+    <span>${item.name} - ${item.price} leke</span>
+    <button class='order-item' onclick='removeItem(${index})'>Remove</button>
+</div>`;
     });
+
 
     document.getElementById("orderList").innerHTML = output;
 

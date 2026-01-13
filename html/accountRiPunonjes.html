@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Account Punonjes</title>
+    <link rel="stylesheet" href="../css/content.css">
+</head>
+<body>
+    <div class="content">
+        <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
+        <div class="mbeshtjelles">
+            <h2 class="newAccount_titull">NEW ACCOUNT</h2>
+            <form>
+                <label for="emri">EMRI</label>
+                <input type="text" id="emri" placeholder="emri" required>
+                <label for="mbiemri">MBIEMRI</label>
+                <input type="text" id="mbiemri" placeholder="mbiemri" required>
+                <label for="email">EMAIL</label>
+                <input type="email" id="email" placeholder='email' required>
+                <label for="numer">NUMER TELEFONI:</label>
+                <input type="tel" id="numer" placeholder="numer telefoni">
+                <label for="turni">TURNI</label>
+                <input type="text" id="turni" placeholder="turni">
+                <label for="pozicion">POZICIONI</label>
+                <input type="text" id="pozicion" placeholder="pozicion">
+                <label for="mosha">MOSHA</label>
+                <input type="number" id="mosha" placeholder="mosha">
+                <label for="password">PASSWORD</label>
+                <input type="password" id="password" placeholder="password" required>
+                <button type="submit" id="ruajP" class="vazhdo">RUAJ</button>
+            </form> 
+        </div>
+    </div>
+    <script>
+        const butonRuaj = document.getElementById('ruajP');
+        butonRuaj.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            const punonjesiRi = {
+                emri: document.getElementById('emri').value,
+                mbiemri: document.getElementById('mbiemri').value,
+                email: document.getElementById('email').value,
+                numer: document.getElementById('numer').value,
+                mosha: document.getElementById('mosha').value,
+                password: document.getElementById('password').value,
+                poz: document.getElementById('pozicion').value,
+                turni: document.getElementById('turni').value,
+                eksper: "" 
+            };
+
+            if (punonjesiRi.email === "" || punonjesiRi.password === "") {
+                alert("Plotësoni Email dhe Password!");
+                return;
+            }
+
+            let lista = JSON.parse(localStorage.getItem('listaPunonjesve')) || [];
+            if (lista.find(u => u.email === punonjesiRi.email)) {
+                alert("Ky email ekziston!");
+                return;
+            }
+
+            lista.push(punonjesiRi);
+            localStorage.setItem('listaPunonjesve', JSON.stringify(lista));
+            localStorage.setItem('profiliPunonjes', JSON.stringify(punonjesiRi));
+
+            alert("Llogaria u krijua!");
+            window.location.href = '../html/loginPunonjes.html';
+        });
+    </script>
+</body>
+</html>

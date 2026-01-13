@@ -8,7 +8,7 @@
     <body>
     
         <div class="content">
-            <span class="titull_fqKlientit">COFFEE DEA</span>
+            <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
            
             <div class="mbeshtjelles">
                 <h2 class="newAccount_titull">PROFILI</h2>
@@ -25,9 +25,7 @@
                   
                     <label for="numer">NUMER TELEFONI:</label>
                     <input type="tel" id="numer" placeholder="numer telefoni">
-                   
-                    <label for="status">STATUSI(BESNIK):</label>
-                    <input type="text" id="status" placeholder="status">
+                
                     
                     <label for="mosha">MOSHA</label>
                     <input type="number" id="mosha" placeholder="mosha" min="1">
@@ -37,11 +35,45 @@
             </div>
         </div>
 <script>
-       const ruaj=document.getElementById('ruaj');
-ruaj.addEventListener('click',()=>{
-window.location.href='../html/faqjaKryesoreKlientit.html';
-}); 
+window.addEventListener('DOMContentLoaded', () => {
+    // Marrim profilin që është aktiv tani
+    const teDhenat = JSON.parse(localStorage.getItem('profiliKlientit'));
+    if (teDhenat) {
+        document.getElementById('emri').value = teDhenat.emri || "";
+        document.getElementById('mbiemri').value = teDhenat.mbiemri || "";
+        document.getElementById('email').value = teDhenat.email || "";
+        document.getElementById('numer').value = teDhenat.numer || "";
+        document.getElementById('mosha').value = teDhenat.mosha || "";
+    }
+});
 
+const ruaj = document.getElementById('ruaj');
+ruaj.addEventListener('click', () => {
+    const klientiIPerditesuar = {
+        emri: document.getElementById('emri').value,
+        mbiemri: document.getElementById('mbiemri').value,
+        email: document.getElementById('email').value,
+        numer: document.getElementById('numer').value,
+        mosha: document.getElementById('mosha').value,
+        // Ruajmë password-in e vjetër që të mos humbasë
+        password: JSON.parse(localStorage.getItem('profiliKlientit')).password 
+    };
+
+    // 1. Përditësojmë profilin aktual
+    localStorage.setItem('profiliKlientit', JSON.stringify(klientiIPerditesuar));
+
+    // 2. Përditësojmë të dhënat edhe te lista e madhe e "New Account"
+    let lista = JSON.parse(localStorage.getItem('listaPerdoruesve')) || [];
+    const index = lista.findIndex(u => u.email === klientiIPerditesuar.email);
+    
+    if (index !== -1) {
+        lista[index] = klientiIPerditesuar;
+        localStorage.setItem('listaPerdoruesve', JSON.stringify(lista));
+    }
+
+    alert("Të dhënat u përditësuan kudo!");
+    window.location.href = '../html/faqjaKryesoreKlientit.html';
+});
 </script>
     </body>
 </html>

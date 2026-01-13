@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PROFILI Punonjesve</title>
+    <link rel="stylesheet" href="../css/content.css">
+</head>
+<body>
+    <div class="content">
+        <span class="titull_fqKlientit">COFFEE DEA & RESTAURANT</span>
+        
+        <div class="mbeshtjelles">
+            <h2 class="newAccount_titull">PROFILI IM</h2>
+
+            <form id="formProfili">
+                <label for="emri">EMRI</label>
+                <input type="text" id="emri" placeholder="emri" required>
+                
+                <label for="mbiemri">MBIEMRI</label>
+                <input type="text" id="mbiemri" placeholder="mbiemri" required>
+                
+                <label for="email">EMAIL (Nuk mund të ndryshohet)</label>
+                <input type="email" id="email" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+              
+                <label for="numer">NUMER TELEFONI</label>
+                <input type="tel" id="numer" placeholder="numer telefoni">
+            
+                <label for="eksper">EKSPERIENCA</label>
+                <input type="text" id="eksper" placeholder="eksperienca">
+
+                <label for="turni">TURNI</label>
+                <input type="text" id="turni" placeholder="turni">
+
+                <label for="poz">POZICIONI</label>
+                <input type="text" id="poz" placeholder="pozicioni">
+
+                <label for="mosha">MOSHA</label>
+                <input type="number" id="mosha" placeholder="mosha" min="1">
+            
+                <button type="button" id="ruaj" class="vazhdo">SAVE CHANGES</button>
+                <button type="button" class="vazhdo" style="background-color: #6c757d;" onclick="window.location.href='FQKRYESOREPUNONJESIT.html'">ANULLO / KTHEHU</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+// Kur ngarkohet faqja, mbushim fushat me të dhënat aktuale
+window.addEventListener('DOMContentLoaded', () => {
+    const teDhenat = JSON.parse(localStorage.getItem('profiliPunonjes'));
+    
+    if (teDhenat) {
+        document.getElementById('emri').value = teDhenat.emri || "";
+        document.getElementById('mbiemri').value = teDhenat.mbiemri || "";
+        document.getElementById('email').value = teDhenat.email || "";
+        document.getElementById('numer').value = teDhenat.numer || "";
+        document.getElementById('mosha').value = teDhenat.mosha || "";
+        document.getElementById('eksper').value = teDhenat.eksper || "";
+        document.getElementById('turni').value = teDhenat.turni || "";
+        document.getElementById('poz').value = teDhenat.poz || "";
+    } else {
+        alert("Ju duhet të jeni të identifikuar!");
+        window.location.href = 'loginPunonjesit.html';
+    }
+});
+
+// Funksioni për të ruajtur ndryshimet
+document.getElementById('ruaj').addEventListener('click', () => {
+    const profiliVjeter = JSON.parse(localStorage.getItem('profiliPunonjes'));
+    
+    if (!profiliVjeter) return;
+
+    // Krijojmë objektin e ri me të dhënat nga inputet
+    const update = {
+        emri: document.getElementById('emri').value,
+        mbiemri: document.getElementById('mbiemri').value,
+        email: document.getElementById('email').value, // Ky mbetet i njëjtë si ID
+        numer: document.getElementById('numer').value,
+        mosha: document.getElementById('mosha').value,
+        eksper: document.getElementById('eksper').value,
+        turni: document.getElementById('turni').value,
+        poz: document.getElementById('poz').value,
+        password: profiliVjeter.password // Ruajmë password-in që ka pasur
+    };
+
+    // 1. Përditësojmë sesionin aktual (profiliPunonjes)
+    localStorage.setItem('profiliPunonjes', JSON.stringify(update));
+
+    // 2. Përditësojmë listën globale (listaPunonjesve) që ndryshimet të pasqyrohen kudo
+    let lista = JSON.parse(localStorage.getItem('listaPunonjesve')) || [];
+    
+    // Gjejmë pozicionin e punonjësit në listë përmes emailit
+    const index = lista.findIndex(u => u.email === profiliVjeter.email);
+    
+    if (index !== -1) {
+        lista[index] = update;
+        localStorage.setItem('listaPunonjesve', JSON.stringify(lista));
+        alert("Profili u përditësua me sukses!");
+        window.location.href = 'FQKRYESOREPUNONJESIT.html';
+    } else {
+        alert("Ndodhi një gabim gjatë përditësimit të listës!");
+    }
+});
+</script>
+</body>
+</html>
